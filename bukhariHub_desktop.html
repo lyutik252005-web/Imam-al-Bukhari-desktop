@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BukhariHub — Desktop Interface</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #0C3D2E;
+    --teal: #1D9E75;
+    --mint: #5DCAA5;
+    --pale: #E1F5EE;
+    --gold: #C9A84C;
+    --gold-light: #F5E6B8;
+    --cream: #FAF7F0;
+    --ink: #1A2E24;
+    --gray: #6B7280;
+    --light: #F0F4F2;
+    --white: #FFFFFF;
+    --blue: #1B4F8A;
+    --blue-light: #E8F0FA;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: #F2F0EB; }
+
+  /* ── LABEL STRIP ── */
+  .page-label {
+    background: var(--forest);
+    color: var(--gold);
+    text-align: center;
+    padding: 8px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    font-weight: 500;
+  }
+
+  /* ── SCREEN WRAPPER ── */
+  .screen {
+    max-width: 1280px;
+    margin: 0 auto;
+    background: var(--white);
+    box-shadow: 0 20px 80px rgba(0,0,0,0.15);
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--forest);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-mark {
+    width: 38px;
+    height: 38px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Amiri', serif;
+    font-size: 18px;
+    color: var(--forest);
+    font-weight: 700;
+  }
+  .logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--white);
+    font-weight: 600;
+  }
+  .logo-sub {
+    font-size: 10px;
+    color: var(--mint);
+    letter-spacing: 1px;
+    margin-top: 1px;
+  }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+  }
+  .nav-link {
+    color: rgba(255,255,255,0.75);
+    font-size: 13px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 4px 0;
+    border-bottom: 2px solid transparent;
+  }
+  .nav-link:hover, .nav-link.active {
+    color: var(--white);
+    border-bottom-color: var(--gold);
+  }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .lang-toggle {
+    display: flex;
+    background: rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 2px;
+  }
+  .lang-btn {
+    font-size: 10px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.6);
+    padding: 4px 10px;
+    border-radius: 18px;
+    cursor: pointer;
+  }
+  .lang-btn.active {
+    background: var(--gold);
+    color: var(--forest);
+  }
+  .nav-cta {
+    background: var(--teal);
+    color: var(--white);
+    border: none;
+    border-radius: 6px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--forest);
+    min-height: 520px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-geo {
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image:
+      repeating-linear-gradient(0deg, #fff 0, #fff 1px, transparent 1px, transparent 40px),
+      repeating-linear-gradient(90deg, #fff 0, #fff 1px, transparent 1px, transparent 40px);
+  }
+  .hero-left {
+    padding: 60px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .eyebrow-dot {
+    width: 8px; height: 8px;
+    background: var(--mint);
+    border-radius: 50%;
+  }
+  .eyebrow-text {
+    font-size: 11px;
+    color: var(--mint);
+    letter-spacing: 2px;
+    font-weight: 500;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    line-height: 1.15;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .hero-title-ar {
+    font-family: 'Amiri', serif;
+    font-size: 28px;
+    color: var(--mint);
+    margin-bottom: 20px;
+    direction: rtl;
+  }
+  .hero-desc {
+    font-size: 15px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.75;
+    max-width: 420px;
+    margin-bottom: 32px;
+  }
+  .hero-btns {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--forest);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 13px;
+    font-weight: 400;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+  }
+  .hero-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--white);
+    font-weight: 600;
+  }
+  .hero-stat-lbl {
+    font-size: 11px;
+    color: var(--mint);
+    margin-top: 2px;
+  }
+  .hero-right {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+  /* Islamic arch decoration */
+  .arch-frame {
+    width: 320px;
+    height: 420px;
+    position: relative;
+  }
+  .arch-outer {
+    width: 100%;
+    height: 100%;
+    border: 2px solid rgba(201,168,76,0.4);
+    border-radius: 160px 160px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .arch-inner {
+    width: calc(100% - 24px);
+    height: calc(100% - 24px);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 148px 148px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  .arch-icon { font-size: 64px; }
+  .arch-quote {
+    font-family: 'Amiri', serif;
+    font-size: 20px;
+    color: var(--mint);
+    text-align: center;
+    padding: 0 24px;
+    direction: rtl;
+  }
+  .arch-quote-en {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 0 24px;
+    font-style: italic;
+  }
+  .arch-ref {
+    font-size: 10px;
+    color: var(--gold);
+    text-align: center;
+    letter-spacing: 1px;
+  }
+
+  /* ── PRAYER BAR ── */
+  .prayer-bar {
+    background: #0A2D20;
+    padding: 12px 40px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .prayer-label {
+    font-size: 10px;
+    color: var(--mint);
+    letter-spacing: 1.5px;
+    font-weight: 500;
+    margin-right: 28px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .prayer-list {
+    display: flex;
+    gap: 0;
+    flex: 1;
+  }
+  .prayer-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 24px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .prayer-item:last-child { border-right: none; }
+  .prayer-name { font-size: 10px; color: rgba(255,255,255,0.45); }
+  .prayer-time { font-size: 14px; font-weight: 500; color: var(--white); margin-top: 2px; }
+  .prayer-item.now .prayer-name { color: var(--gold); }
+  .prayer-item.now .prayer-time { color: var(--gold); }
+  .hijri {
+    margin-left: auto;
+    font-family: 'Amiri', serif;
+    font-size: 13px;
+    color: var(--gold);
+  }
+
+  /* ── FEATURE STRIP ── */
+  .feature-strip {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    border-bottom: 1px solid var(--light);
+  }
+  .feat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 12px;
+    border-right: 1px solid var(--light);
+    cursor: pointer;
+    transition: background 0.2s;
+    gap: 8px;
+  }
+  .feat-item:last-child { border-right: none; }
+  .feat-item:hover { background: var(--pale); }
+  .feat-item.active { background: var(--pale); }
+  .feat-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+  .feat-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink);
+    text-align: center;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .main { display: grid; grid-template-columns: 2fr 1fr; gap: 0; }
+
+  /* ── HADITH SECTION ── */
+  .hadith-section { padding: 40px; border-right: 1px solid var(--light); }
+  .section-eyebrow {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--teal);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .search-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .search-input {
+    flex: 1;
+    border: 1px solid var(--light);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--cream);
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .search-btn {
+    background: var(--teal);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .hadith-card {
+    background: var(--forest);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 16px;
+    border-left: 4px solid var(--gold);
+    position: relative;
+    overflow: hidden;
+  }
+  .hadith-card::before {
+    content: '❝';
+    position: absolute;
+    top: -10px; right: 20px;
+    font-size: 80px;
+    color: rgba(255,255,255,0.04);
+    font-family: serif;
+  }
+  .hadith-ar {
+    font-family: 'Amiri', serif;
+    font-size: 22px;
+    color: var(--white);
+    direction: rtl;
+    text-align: right;
+    line-height: 1.9;
+    margin-bottom: 16px;
+  }
+  .hadith-en {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.75;
+    font-style: italic;
+    margin-bottom: 12px;
+  }
+  .hadith-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .hadith-ref {
+    font-size: 11px;
+    color: var(--gold);
+    font-weight: 500;
+  }
+  .hadith-audio {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--mint);
+    cursor: pointer;
+  }
+
+  /* ── PROGRAMS GRID ── */
+  .programs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .program-card {
+    border: 1px solid var(--light);
+    border-radius: 10px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .program-card:hover {
+    border-color: var(--teal);
+    background: var(--pale);
+  }
+  .prog-badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+  .badge-imam { background: var(--gold-light); color: var(--forest); }
+  .badge-school { background: var(--blue-light); color: var(--blue); }
+  .badge-women { background: #FCE4EC; color: #880E4F; }
+  .badge-online { background: var(--pale); color: var(--teal); }
+  .prog-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .prog-desc {
+    font-size: 11px;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+  .prog-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    font-size: 10px;
+    color: var(--gray);
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar { padding: 40px 24px; background: var(--cream); }
+
+  .prayer-countdown {
+    background: var(--forest);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .pc-label { font-size: 10px; color: var(--mint); letter-spacing: 1px; margin-bottom: 4px; }
+  .pc-name { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--white); }
+  .pc-time { font-size: 32px; font-weight: 700; color: var(--gold); letter-spacing: 2px; font-family: 'DM Sans', sans-serif; }
+  .pc-sub { font-size: 10px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+
+  .event-list { margin-bottom: 20px; }
+  .event-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--light);
+    display: flex;
+    gap: 12px;
+  }
+  .event-date-block {
+    width: 40px;
+    flex-shrink: 0;
+    text-align: center;
+  }
+  .event-day {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--teal);
+    font-family: 'Playfair Display', serif;
+    line-height: 1;
+  }
+  .event-month { font-size: 9px; color: var(--gray); letter-spacing: 1px; }
+  .event-info { flex: 1; }
+  .event-title { font-size: 12px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+  .event-imam { font-size: 10px; color: var(--teal); }
+  .event-loc { font-size: 10px; color: var(--gray); }
+  .event-gender-badge {
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-top: 4px;
+    display: inline-block;
+  }
+  .gb-all { background: var(--pale); color: var(--teal); }
+  .gb-women { background: #FCE4EC; color: #880E4F; }
+  .gb-men { background: #E3F2FD; color: #1565C0; }
+
+  .imam-card {
+    border: 1px solid var(--light);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .imam-header {
+    background: var(--forest);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .imam-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Amiri', serif;
+    font-size: 18px;
+    color: var(--forest);
+    font-weight: 700;
+  }
+  .imam-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    color: var(--white);
+  }
+  .imam-origin { font-size: 10px; color: var(--mint); }
+  .imam-body { padding: 12px 16px; }
+  .imam-topic { font-size: 11px; color: var(--ink); margin-bottom: 6px; }
+  .imam-schedule { font-size: 10px; color: var(--gray); display: flex; gap: 16px; }
+
+  /* ── MOSQUE MAP SECTION ── */
+  .mosque-map-section {
+    padding: 40px;
+    background: var(--cream);
+    border-top: 1px solid var(--light);
+  }
+  .map-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .map-visual {
+    background: var(--light);
+    border-radius: 12px;
+    height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(201,168,76,0.2);
+  }
+  .map-overlay {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+  }
+  .map-zone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .zone-men {
+    background: rgba(21,101,192,0.12);
+    border-bottom: 2px dashed rgba(21,101,192,0.3);
+  }
+  .zone-women {
+    background: rgba(136,14,79,0.08);
+  }
+  .zone-label {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .zone-sub { font-size: 10px; color: var(--gray); }
+  .map-info { display: flex; flex-direction: column; gap: 12px; }
+  .zone-card {
+    border-radius: 10px;
+    padding: 16px;
+    border: 1px solid var(--light);
+  }
+  .zone-card-men { background: #E3F2FD; border-color: #90CAF9; }
+  .zone-card-women { background: #FCE4EC; border-color: #F48FB1; }
+  .zone-card-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .zone-card-men .zone-card-title { color: #1565C0; }
+  .zone-card-women .zone-card-title { color: #880E4F; }
+  .zone-card-desc { font-size: 11px; color: var(--gray); line-height: 1.5; }
+
+  /* ── SCHOOL SECTION ── */
+  .school-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--light);
+  }
+  .school-card {
+    padding: 32px;
+    border-right: 1px solid var(--light);
+  }
+  .school-card:last-child { border-right: none; }
+  .school-icon { font-size: 32px; margin-bottom: 12px; }
+  .school-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .school-desc { font-size: 12px; color: var(--gray); line-height: 1.65; margin-bottom: 12px; }
+  .school-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .school-tag {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    background: var(--pale);
+    color: var(--teal);
+    font-weight: 500;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--forest);
+    color: rgba(255,255,255,0.6);
+    padding: 32px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-left { display: flex; align-items: center; gap: 12px; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--white); }
+  .footer-tagline { font-size: 11px; color: var(--mint); }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-link { font-size: 11px; color: rgba(255,255,255,0.5); cursor: pointer; }
+  .footer-copy { font-size: 10px; }
+</style>
+</head>
+<body>
+
+<div class="page-label">BUKHARIHUB — DESKTOP INTERFACE — UI DESIGN MOCKUP</div>
+
+<div class="screen">
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">
+      <div class="logo-mark">ب</div>
+      <div>
+        <div class="logo-text">BukhariHub</div>
+        <div class="logo-sub">SAMARKAND · UZBEKISTAN</div>
+      </div>
+    </div>
+    <div class="nav-links">
+      <span class="nav-link active">Home</span>
+      <span class="nav-link">Visit</span>
+      <span class="nav-link">Lectures</span>
+      <span class="nav-link">Schools</span>
+      <span class="nav-link">Hadith Hub</span>
+      <span class="nav-link">Virtual Tour</span>
+      <span class="nav-link">Donate</span>
+    </div>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <span class="lang-btn active">EN</span>
+        <span class="lang-btn">AR</span>
+        <span class="lang-btn">УЗ</span>
+        <span class="lang-btn">RU</span>
+      </div>
+      <button class="nav-cta">Plan Visit</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-geo"></div>
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <div class="eyebrow-dot"></div>
+        <span class="eyebrow-text">OFFICIAL DIGITAL PLATFORM · EST. 2026</span>
+      </div>
+      <h1 class="hero-title">The Legacy of<br>Imam al-Bukhari</h1>
+      <div class="hero-title-ar">مجمع الإمام البخاري — سمرقند</div>
+      <p class="hero-desc">Explore the mausoleum, mosque, schools and scholarly legacy of the greatest Hadith compiler in Islamic history. Lectures. Learning. Connection. In 4 languages.</p>
+      <div class="hero-btns">
+        <button class="btn-primary">🕌 Explore the Complex</button>
+        <button class="btn-outline">▶ Watch Virtual Tour</button>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">7,275</div>
+          <div class="hero-stat-lbl">Hadith in Sahih al-Bukhari</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">3M+</div>
+          <div class="hero-stat-lbl">Annual visitors</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">1,200+</div>
+          <div class="hero-stat-lbl">Years of heritage</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="arch-frame">
+        <div class="arch-outer">
+          <div class="arch-inner">
+            <div class="arch-icon">🕌</div>
+            <div class="arch-quote">إنما الأعمال بالنيات</div>
+            <div class="arch-quote-en">"Actions are by intentions"</div>
+            <div class="arch-ref">SAHIH AL-BUKHARI · BOOK 1, HADITH 1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRAYER BAR -->
+  <div class="prayer-bar">
+    <div class="prayer-label">🕐 Prayer Times · Samarkand</div>
+    <div class="prayer-list">
+      <div class="prayer-item"><div class="prayer-name">Fajr</div><div class="prayer-time">04:12</div></div>
+      <div class="prayer-item"><div class="prayer-name">Sunrise</div><div class="prayer-time">05:48</div></div>
+      <div class="prayer-item"><div class="prayer-name">Dhuhr</div><div class="prayer-time">13:05</div></div>
+      <div class="prayer-item now"><div class="prayer-name">Asr · Now</div><div class="prayer-time">16:48</div></div>
+      <div class="prayer-item"><div class="prayer-name">Maghrib</div><div class="prayer-time">20:31</div></div>
+      <div class="prayer-item"><div class="prayer-name">Isha</div><div class="prayer-time">22:05</div></div>
+    </div>
+    <div class="hijri">٢٤ ذو القعدة ١٤٤٦</div>
+  </div>
+
+  <!-- FEATURE STRIP -->
+  <div class="feature-strip">
+    <div class="feat-item active">
+      <div class="feat-icon" style="background:#E1F5EE">🕌</div>
+      <div class="feat-label">Visit & Map</div>
+    </div>
+    <div class="feat-item">
+      <div class="feat-icon" style="background:#FAEEDA">🎙</div>
+      <div class="feat-label">Imam Lectures</div>
+    </div>
+    <div class="feat-item">
+      <div class="feat-icon" style="background:#E8F0FA">📖</div>
+      <div class="feat-label">Arabic School</div>
+    </div>
+    <div class="feat-item">
+      <div class="feat-icon" style="background:#E1F5EE">📚</div>
+      <div class="feat-label">Hadith Hub</div>
+    </div>
+    <div class="feat-item">
+      <div class="feat-icon" style="background:#EDE7F6">🌐</div>
+      <div class="feat-label">Virtual Tour</div>
+    </div>
+    <div class="feat-item">
+      <div class="feat-icon" style="background:#FCE4EC">🤲</div>
+      <div class="feat-label">Donate</div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+    <div class="hadith-section">
+
+      <!-- HADITH OF THE DAY -->
+      <div class="section-eyebrow">TODAY'S HADITH</div>
+      <h2 class="section-title">Sahih al-Bukhari · Daily Wisdom</h2>
+      <div class="search-bar">
+        <input class="search-input" type="text" placeholder="Search Sahih al-Bukhari in Arabic, English, Uzbek…">
+        <button class="search-btn">Search</button>
+      </div>
+      <div class="hadith-card">
+        <div class="hadith-ar">إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى</div>
+        <div class="hadith-en">"Actions are judged by intentions, and every person will be rewarded according to their intention. Whoever emigrates for the sake of Allah and His Messenger, his emigration will be for Allah and His Messenger."</div>
+        <div class="hadith-meta">
+          <span class="hadith-ref">Sahih al-Bukhari · Book 1, Hadith 1 · Narrated: Umar ibn al-Khattab (ra)</span>
+          <span class="hadith-audio">🔊 Listen in Arabic</span>
+        </div>
+      </div>
+
+      <!-- PROGRAMS -->
+      <div class="section-eyebrow" style="margin-top:28px">PROGRAMS & SCHOOLS</div>
+      <h2 class="section-title">Learning at the Complex</h2>
+      <div class="programs-grid">
+        <div class="program-card">
+          <div class="prog-badge badge-imam">IMAM LECTURE</div>
+          <div class="prog-title">Global Imam Lecture Series</div>
+          <div class="prog-desc">Live and recorded lectures by renowned Imams from around the world — available in Arabic, Uzbek, English and Russian.</div>
+          <div class="prog-meta">🌍 International · Weekly · All Welcome</div>
+        </div>
+        <div class="program-card">
+          <div class="prog-badge badge-school">ARABIC SCHOOL</div>
+          <div class="prog-title">Arabic Language & Quranic Studies</div>
+          <div class="prog-desc">School for children and adults — boys and girls — learning classical Arabic, Quranic recitation and Islamic philosophy.</div>
+          <div class="prog-meta">📅 Mon–Fri · Ages 6–18 · Separate classes</div>
+        </div>
+        <div class="program-card">
+          <div class="prog-badge badge-women">WOMEN'S SECTION</div>
+          <div class="prog-title">Women's Lecture Hall & Programs</div>
+          <div class="prog-desc">Dedicated section of the mosque for women — private Imam lectures, Quran circles, and Islamic education programs.</div>
+          <div class="prog-meta">🏛 West Wing · Daily programs · Sisters only</div>
+        </div>
+        <div class="program-card">
+          <div class="prog-badge badge-online">ONLINE ACCESS</div>
+          <div class="prog-title">Remote Learning & Livestreams</div>
+          <div class="prog-desc">Full access to lectures, Hadith courses and school resources for the global Muslim community who cannot visit in person.</div>
+          <div class="prog-meta">📱 Anywhere · 24/7 access · Free & Premium</div>
+        </div>
+      </div>
+
+      <!-- MOSQUE ZONES -->
+      <div class="section-eyebrow" style="margin-top:8px">MOSQUE LAYOUT</div>
+      <h2 class="section-title">Complex Floor Plan</h2>
+      <div class="map-grid">
+        <div class="map-visual">
+          <div class="map-overlay">
+            <div class="map-zone zone-men">
+              <div class="zone-label" style="color:#1565C0">🕌 Men's Section</div>
+              <div class="zone-sub">Main prayer hall · North wing</div>
+            </div>
+            <div class="map-zone zone-women">
+              <div class="zone-label" style="color:#880E4F">🌸 Women's Section</div>
+              <div class="zone-sub">Private lecture hall · South wing</div>
+            </div>
+          </div>
+        </div>
+        <div class="map-info">
+          <div class="zone-card zone-card-men">
+            <div class="zone-card-title">🔵 Men's Section — North Wing</div>
+            <div class="zone-card-desc">Main prayer hall, Friday sermon, Imam lectures (Men's series), Hadith study circles, and the Arabic school for boys.</div>
+          </div>
+          <div class="zone-card zone-card-women">
+            <div class="zone-card-title">🌸 Women's Section — South Wing</div>
+            <div class="zone-card-desc">Private prayer hall, dedicated women's Imam lecture series, Quran recitation circles, and Arabic school for girls.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="prayer-countdown">
+        <div class="pc-label">NEXT PRAYER</div>
+        <div class="pc-name">Maghrib</div>
+        <div class="pc-time">03:43</div>
+        <div class="pc-sub">20:31 · Samarkand local time</div>
+      </div>
+
+      <div class="section-eyebrow">UPCOMING EVENTS</div>
+      <div class="event-list">
+        <div class="event-item">
+          <div class="event-date-block">
+            <div class="event-day">28</div>
+            <div class="event-month">JUN</div>
+          </div>
+          <div class="event-info">
+            <div class="event-title">Int'l Hadith Conference</div>
+            <div class="event-imam">Sheikh Ahmad al-Ghamdi</div>
+            <div class="event-loc">📍 Main Hall · Livestream</div>
+            <div class="event-gender-badge gb-all">All Welcome</div>
+          </div>
+        </div>
+        <div class="event-item">
+          <div class="event-date-block">
+            <div class="event-day">05</div>
+            <div class="event-month">JUL</div>
+          </div>
+          <div class="event-info">
+            <div class="event-title">Women's Quran Circle</div>
+            <div class="event-imam">Ustadha Fatima al-Rashid</div>
+            <div class="event-loc">📍 South Wing</div>
+            <div class="event-gender-badge gb-women">Sisters Only</div>
+          </div>
+        </div>
+        <div class="event-item">
+          <div class="event-date-block">
+            <div class="event-day">12</div>
+            <div class="event-month">JUL</div>
+          </div>
+          <div class="event-info">
+            <div class="event-title">Arabic Beginner Intake</div>
+            <div class="event-imam">School Registration Open</div>
+            <div class="event-loc">📍 Madrasa · In-person</div>
+            <div class="event-gender-badge gb-all">Boys & Girls</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-eyebrow" style="margin-top:8px">FEATURED IMAMS</div>
+      <div class="imam-card">
+        <div class="imam-header">
+          <div class="imam-avatar">أ</div>
+          <div>
+            <div class="imam-name">Sheikh Ahmad al-Ghamdi</div>
+            <div class="imam-origin">🇸🇦 Saudi Arabia</div>
+          </div>
+        </div>
+        <div class="imam-body">
+          <div class="imam-topic">Topic: The Science of Hadith Verification</div>
+          <div class="imam-schedule">
+            <span>📅 Every Friday 14:00</span>
+            <span>🌐 Arabic · English</span>
+          </div>
+        </div>
+      </div>
+      <div class="imam-card">
+        <div class="imam-header">
+          <div class="imam-avatar">ع</div>
+          <div>
+            <div class="imam-name">Imam Abdulloh Domla</div>
+            <div class="imam-origin">🇺🇿 Uzbekistan</div>
+          </div>
+        </div>
+        <div class="imam-body">
+          <div class="imam-topic">Topic: Life & Legacy of Imam al-Bukhari</div>
+          <div class="imam-schedule">
+            <span>📅 Daily 9:00–10:00</span>
+            <span>🌐 Uzbek · Russian</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCHOOL SECTION -->
+  <div class="section-eyebrow" style="padding:32px 40px 0; background:var(--cream)">EDUCATION AT THE COMPLEX</div>
+  <div class="school-section">
+    <div class="school-card">
+      <div class="school-icon">📖</div>
+      <div class="school-title">Arabic Language School</div>
+      <div class="school-desc">Full-curriculum Arabic school for children 6–18 and adult learners. Separate classes for boys and girls. Classical Arabic, Quranic recitation, and Arabic calligraphy taught by qualified native-speaking teachers.</div>
+      <div class="school-tags">
+        <span class="school-tag">Ages 6–18</span>
+        <span class="school-tag">Boys & Girls</span>
+        <span class="school-tag">Classical Arabic</span>
+        <span class="school-tag">Quran</span>
+      </div>
+    </div>
+    <div class="school-card">
+      <div class="school-icon">🎓</div>
+      <div class="school-title">Islamic Practice School</div>
+      <div class="school-desc">Practical training in Islamic worship, Salah, Wudu, Hajj preparation, fasting, and religious etiquette. Taught by experienced scholars. Certification issued upon completion of each level.</div>
+      <div class="school-tags">
+        <span class="school-tag">All Ages</span>
+        <span class="school-tag">Certification</span>
+        <span class="school-tag">Salah Training</span>
+        <span class="school-tag">Hajj Prep</span>
+      </div>
+    </div>
+    <div class="school-card">
+      <div class="school-icon">📿</div>
+      <div class="school-title">Hadith Sciences Program</div>
+      <div class="school-desc">Academic study of Imam al-Bukhari's methodology, Hadith chain verification (Isnad), and the principles of Hadith science. Online and in-person tracks. Certificate issued by the complex's scholarly board.</div>
+      <div class="school-tags">
+        <span class="school-tag">Adults</span>
+        <span class="school-tag">Online + In-person</span>
+        <span class="school-tag">Isnad</span>
+        <span class="school-tag">Certificate</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">
+      <div class="logo-mark" style="width:32px;height:32px;font-size:16px">ب</div>
+      <div>
+        <div class="footer-logo">BukhariHub</div>
+        <div class="footer-tagline">Serving the legacy of Imam al-Bukhari for the world</div>
+      </div>
+    </div>
+    <div class="footer-links">
+      <span class="footer-link">Privacy</span>
+      <span class="footer-link">Terms</span>
+      <span class="footer-link">Contact</span>
+      <span class="footer-link">Arabic · Uzbek · English · Russian</span>
+    </div>
+    <div class="footer-copy">© 2026 BukhariHub · Samarkand, Uzbekistan</div>
+  </footer>
+
+</div>
+
+<div class="page-label" style="margin-top:40px; background:#1A2E24">
+  SCREEN 1 OF 2 · DESKTOP HOMEPAGE · BUKHARIHUB PLATFORM INTERFACE
+</div>
+</body>
+</html>
